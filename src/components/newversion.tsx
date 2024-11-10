@@ -42,7 +42,6 @@ export default function NewVersionCalculator() {
   })
   const [isListening, setIsListening] = useState(false)
   const [voiceLanguage, setVoiceLanguage] = useState<VoiceLanguage>('none')
-  const [isClient, setIsClient] = useState(false)
 
   // LocalStorage hooks
   const [sites, setSites] = useLocalStorage<Site[]>('calculator-sites', [
@@ -76,11 +75,6 @@ export default function NewVersionCalculator() {
   // useEffect for initialization
   useEffect(() => {
     setMounted(true)
-  }, [])
-
-  // useEffect for isClient
-  useEffect(() => {
-    setIsClient(true)
   }, [])
 
   // Voice input handlers

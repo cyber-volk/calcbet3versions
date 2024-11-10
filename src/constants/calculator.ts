@@ -1,10 +1,10 @@
 import type { LanguageOption } from '@/types/calculator'
 
 export const LANGUAGE_OPTIONS: LanguageOption[] = [
-  { code: 'none', label: 'No Voice Input', flag: '🔇' },
-  { code: 'ar-SA', label: 'العربية', flag: '🇸🇦' },
-  { code: 'fr-FR', label: 'Français', flag: '🇫🇷' },
-  { code: 'en-US', label: 'English', flag: '🇺🇸' }
+  { code: 'none', flag: '🔇', name: 'None' },
+  { code: 'ar-SA', flag: '🇸🇦', name: 'Arabic' },
+  { code: 'fr-FR', flag: '🇫🇷', name: 'French' },
+  { code: 'en-US', flag: '🇺🇸', name: 'English' }
 ]
 
 export const MESSAGES = {

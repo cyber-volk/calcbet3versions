@@ -10,12 +10,11 @@ import { processVoiceInput } from '@/utils/voice-processing'
 import { ErrorKeys, Errors, RowField } from '@/types/calculator'
 import { 
   SITE_COLORS, 
-  VoiceFeedback, 
   VoiceInputButton, 
   LanguageSelector,
   SiteCarousel 
 } from '@/components/calculator/shared'
-import { MESSAGES, LANGUAGE_OPTIONS } from '@/constants/calculator'
+import { MESSAGES } from '@/constants/calculator'  // Make sure this import exists
 
 // Types
 type VoiceLanguage = 'none' | 'ar-SA' | 'fr-FR' | 'en-US'

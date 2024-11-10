@@ -2,9 +2,9 @@
 export type VoiceLanguage = 'none' | 'ar-SA' | 'fr-FR' | 'en-US'
 
 export interface LanguageOption {
-  code: VoiceLanguage
-  label: string
+  code: string
   flag: string
+  name: string
 }
 
 export interface MessageContent {
@@ -65,7 +65,7 @@ export type Form = {
   calculationHistory?: Form[]
 }
 
-export type SiteColor = 'blue' | 'green' | 'yellow' | 'purple' | 'red' | 'none'
+export type SiteColor = 'none' | 'blue' | 'green' | 'yellow' | 'purple' | 'red'
 
 export interface Site {
   id: string

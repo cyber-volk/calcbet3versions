@@ -4,10 +4,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Mic, Languages, Plus, Edit2, Check, X, Trash2, Palette } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import {
-  VoiceLanguage, Site
+  VoiceLanguage, Site, SiteColor,
+  LanguageOption
 } from '@/types/calculator'
-import { LANGUAGE_OPTIONS, MESSAGES } from '@/constants/calculator'
-import { SiteColor } from '@/types/calculator'
+import { MESSAGES, LANGUAGE_OPTIONS } from '@/constants/calculator'
 
 export function VoiceFeedback({ 
   isListening, 
@@ -65,36 +65,33 @@ export function LanguageSelector({
   onLanguageChange 
 }: { 
   selectedLanguage: VoiceLanguage
-  onLanguageChange: (lang: VoiceLanguage) => void 
+  onLanguageChange: (language: VoiceLanguage) => void 
 }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div className="relative">
       <button
-        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-100"
       >
         <Languages size={20} />
-        <span>{LANGUAGE_OPTIONS.find(lang => lang.code === selectedLanguage)?.flag}</span>
+        <span>{LANGUAGE_OPTIONS.find((lang: LanguageOption) => lang.code === selectedLanguage)?.flag}</span>
       </button>
       
       {isOpen && (
         <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-50">
-          {LANGUAGE_OPTIONS.map((lang) => (
+          {LANGUAGE_OPTIONS.map((lang: LanguageOption) => (
             <button
               key={lang.code}
               onClick={() => {
-                onLanguageChange(lang.code)
+                onLanguageChange(lang.code as VoiceLanguage)
                 setIsOpen(false)
               }}
-              className={`w-full flex items-center gap-2 px-4 py-2 hover:bg-gray-100 ${
-                selectedLanguage === lang.code ? 'bg-gray-50' : ''
-              }`}
+              className="w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2"
             >
               <span>{lang.flag}</span>
-              <span>{lang.label}</span>
+              <span>{lang.name}</span>
             </button>
           ))}
         </div>
