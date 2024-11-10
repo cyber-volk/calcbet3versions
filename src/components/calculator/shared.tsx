@@ -288,6 +288,8 @@ export function SiteCarousel({
 }: SiteCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
 
+  const isCurrentSite = (index: number) => index === currentSiteIndex
+
   return (
     <div className="relative w-full overflow-hidden mb-8">
       <div 
@@ -303,7 +305,7 @@ export function SiteCarousel({
         {sites.map((site, index) => (
           <div 
             key={site.id} 
-            className="snap-center flex-shrink-0"
+            className={`snap-center flex-shrink-0 ${isCurrentSite(index) ? 'scale-105' : ''}`}
             style={{ scrollSnapAlign: 'center' }}
           >
             <SiteCard

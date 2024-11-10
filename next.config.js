@@ -9,6 +9,15 @@ const nextConfig = {
     })
     return config
   },
+  async redirects() {
+    return [
+      {
+        source: '/_not-found',
+        destination: '/404',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig 
