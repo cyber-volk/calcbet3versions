@@ -2,8 +2,8 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { 
-  Mic, Trash, Plus, Languages, ChevronRight, ChevronLeft, 
-  Edit2, Check, X, Trash2, RotateCcw, Book, Clock, Palette 
+  Plus, ChevronRight, ChevronLeft, 
+  Trash2, RotateCcw, Clock, X, Book, Trash 
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { processVoiceInput } from '@/utils/voice-processing'
@@ -245,7 +245,7 @@ function FormPreview({
                             onClick={() => removeRow('credit', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="p-2">
@@ -376,7 +376,7 @@ function FormPreview({
                             onClick={() => removeRow('creditPayee', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="border border-gray-300 p-1 sm:px-4 sm:py-2">
@@ -507,7 +507,7 @@ function FormPreview({
                             onClick={() => removeRow('depense', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="p-2">
@@ -638,7 +638,7 @@ function FormPreview({
                             onClick={() => removeRow('retrait', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="p-2 border border-gray-200">
@@ -900,7 +900,6 @@ export default function NewCalculator() {
   // 1. State hooks
   const [mounted, setMounted] = useState(false)
   const [voiceLanguage, setVoiceLanguage] = useState<VoiceLanguage>('none')
-  const [isListening, setIsListening] = useState(false)
   const [multiplier, setMultiplier] = useState('1.1')
   const [fond, setFond] = useState('')
   const [soldeALinstant, setSoldeALinstant] = useState('')
@@ -949,9 +948,6 @@ export default function NewCalculator() {
   ])
   const [currentSiteIndex, setCurrentSiteIndex] = useLocalStorage('current-site-index', 0)
   const [currentFormIndex, setCurrentFormIndex] = useLocalStorage('current-form-index', 0)
-
-  // Add this state to track client-side rendering
-  const [isClient, setIsClient] = useState(false)
 
   // Add this useEffect
   useEffect(() => {
@@ -1011,8 +1007,6 @@ export default function NewCalculator() {
     recognition.interimResults = false
     recognition.maxAlternatives = 1
 
-    setIsListening(true)
-
     recognition.onstart = () => {
       console.log('Voice recognition started')
     }
@@ -1029,7 +1023,6 @@ export default function NewCalculator() {
             ? processVoiceInput(finalTranscript, true)
             : finalTranscript.trim()
           callback(processedValue)
-          setIsListening(false)
           recognition.stop()
           break
         }
@@ -1038,22 +1031,20 @@ export default function NewCalculator() {
 
     recognition.onerror = (event: any) => {
       console.error('Speech recognition error:', event.error)
-      setIsListening(false)
       alert(MESSAGES[voiceLanguage].error)
     }
 
     recognition.onend = () => {
-      setIsListening(false)
+      // setIsListening(false)
     }
 
     try {
       recognition.start()
     } catch (error) {
       console.error('Recognition start error:', error)
-      setIsListening(false)
       alert(MESSAGES[voiceLanguage].error)
     }
-  }, [voiceLanguage, setIsListening])
+  }, [voiceLanguage])
 
   // Then define handleVoiceInputWithFeedback
   const handleVoiceInputWithFeedback = useCallback((
@@ -1062,9 +1053,8 @@ export default function NewCalculator() {
   ) => {
     handleVoiceInput((value: string) => {
       callback(value)
-      setIsListening(false)
     }, isNumberField)
-  }, [handleVoiceInput, setIsListening])
+  }, [handleVoiceInput])
 
   // 2. useEffect hooks
   useEffect(() => {
@@ -1710,7 +1700,7 @@ export default function NewCalculator() {
                             onClick={() => removeRow('credit', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="p-2">
@@ -1840,7 +1830,7 @@ export default function NewCalculator() {
                             onClick={() => removeRow('creditPayee', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="border border-gray-300 p-1 sm:px-4 sm:py-2">
@@ -1970,7 +1960,7 @@ export default function NewCalculator() {
                             onClick={() => removeRow('depense', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="p-2">
@@ -2100,7 +2090,7 @@ export default function NewCalculator() {
                             onClick={() => removeRow('retrait', index)}
                             className="text-red-500 hover:text-red-700"
                           >
-                            <Trash size={16} />
+                            <Trash2 size={16} />
                           </button>
                         </td>
                         <td className="p-2 border border-gray-200">

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Mic, Languages, Plus, Edit2, Check, X, Trash2, Palette } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import {
-  VoiceLanguage, LanguageOption, Site
+  VoiceLanguage, Site
 } from '@/types/calculator'
 import { LANGUAGE_OPTIONS, MESSAGES } from '@/constants/calculator'
 import { SiteColor } from '@/types/calculator'

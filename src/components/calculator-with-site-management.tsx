@@ -99,7 +99,6 @@ const processVoiceInput = (transcript: string, isNumberField: boolean = true): s
 export function CalculatorWithSiteManagement() {
   // All hooks at the top
   const [mounted, setMounted] = useState(false)
-  const [timestamp, setTimestamp] = useState('')
   const [multiplier, setMultiplier] = useState('1.1')
   const [fond, setFond] = useState('')
   const [soldeALinstant, setSoldeALinstant] = useState('')
@@ -119,7 +118,6 @@ export function CalculatorWithSiteManagement() {
     depense: '',
     retrait: ''
   })
-  const [isListening, setIsListening] = useState(false)
   const [voiceLanguage, setVoiceLanguage] = useState<VoiceLanguage>('none')
   const [sites, setSites] = useLocalStorage<Site[]>('calculator-management-sites', [
     {
@@ -147,16 +145,10 @@ export function CalculatorWithSiteManagement() {
   ])
   const [currentSiteIndex, setCurrentSiteIndex] = useLocalStorage('management-current-site-index', 0)
   const [currentFormIndex, setCurrentFormIndex] = useLocalStorage('management-current-form-index', 0)
-  const [isClient, setIsClient] = useState(false)
 
   // useEffect hooks
   useEffect(() => {
     setMounted(true)
-    setTimestamp(new Date().toISOString())
-  }, [])
-
-  useEffect(() => {
-    setIsClient(true)
   }, [])
 
   // Define handleVoiceInput first
@@ -177,8 +169,6 @@ export function CalculatorWithSiteManagement() {
     recognition.interimResults = false
     recognition.maxAlternatives = 1
 
-    setIsListening(true)
-
     recognition.onstart = () => {
       console.log('Voice recognition started')
     }
@@ -195,7 +185,6 @@ export function CalculatorWithSiteManagement() {
             ? processVoiceInput(finalTranscript, true)
             : finalTranscript.trim()
           callback(processedValue)
-          setIsListening(false)
           recognition.stop()
           break
         }
@@ -204,19 +193,17 @@ export function CalculatorWithSiteManagement() {
 
     recognition.onerror = (event: any) => {
       console.error('Speech recognition error:', event.error)
-      setIsListening(false)
       alert(MESSAGES[voiceLanguage].error)
     }
 
     recognition.onend = () => {
-      setIsListening(false)
+      // No need to set isListening to false here
     }
 
     try {
       recognition.start()
     } catch (error) {
       console.error('Recognition start error:', error)
-      setIsListening(false)
       alert(MESSAGES[voiceLanguage].error)
     }
   }, [voiceLanguage])
@@ -228,9 +215,8 @@ export function CalculatorWithSiteManagement() {
   ) => {
     handleVoiceInput((value: string) => {
       callback(value)
-      setIsListening(false)
     }, isNumberField)
-  }, [handleVoiceInput, setIsListening])
+  }, [handleVoiceInput])
 
   const validateInput = (value: string, errorKey: ErrorKeys, isMandatory = false) => {
     let parsedValue: number | null = null

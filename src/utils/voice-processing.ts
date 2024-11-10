@@ -1,4 +1,4 @@
-export const processVoiceInput = (transcript: string, isNumberField: boolean = true): string => {
+export const processVoiceInput = (transcript: string, isNumberField = true): string => {
   if (!isNumberField) {
     return transcript.trim()
   }
