@@ -897,6 +897,8 @@ function HistorySlider({
 
 // Main Calculator Component
 export default function NewCalculator() {
+  const [isLoading, setIsLoading] = useState(true)
+  
   // 1. State hooks
   const [mounted, setMounted] = useState(false)
   const [voiceLanguage, setVoiceLanguage] = useState<VoiceLanguage>('none')
@@ -951,10 +953,15 @@ export default function NewCalculator() {
 
   // Add this useEffect
   useEffect(() => {
-    setMounted(true)
-    // Set initial site name
-    if (sites[currentSiteIndex]) {
-      setSite(sites[currentSiteIndex].name)
+    try {
+      setMounted(true)
+      if (sites[currentSiteIndex]) {
+        setSite(sites[currentSiteIndex].name)
+      }
+      setIsLoading(false)
+    } catch (error) {
+      console.error('Error initializing calculator:', error)
+      setIsLoading(false)
     }
   }, [sites, currentSiteIndex])
 
@@ -1535,6 +1542,14 @@ export default function NewCalculator() {
         setRetraitRows([...retraitRows, { retraitPayee: '', retrait: '', client: '' }])
         break
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    )
   }
 
   if (!mounted) {
