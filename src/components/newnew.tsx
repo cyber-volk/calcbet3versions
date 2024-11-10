@@ -956,13 +956,18 @@ export default function NewCalculator() {
       setMounted(true)
       if (sites[currentSiteIndex]) {
         setSite(sites[currentSiteIndex].name)
+        // Load the current form data
+        const currentForm = sites[currentSiteIndex].forms[currentFormIndex]
+        if (currentForm) {
+          loadForm(currentForm)
+        }
       }
       setIsLoading(false)
     } catch (error) {
       console.error('Error initializing calculator:', error)
       setIsLoading(false)
     }
-  }, [sites, currentSiteIndex])
+  }, [sites, currentSiteIndex, currentFormIndex])
 
   // Add validateInput function
   const validateInput = (value: string, errorKey: ErrorKeys, isMandatory = false) => {
@@ -1071,7 +1076,12 @@ export default function NewCalculator() {
   const handleSiteChange = (index: number) => {
     setCurrentSiteIndex(index)
     setCurrentFormIndex(0)
-    loadForm(sites[index].forms[0])
+    
+    // Make sure we're loading the correct form data
+    const siteToLoad = sites[index]
+    if (siteToLoad && siteToLoad.forms.length > 0) {
+      loadForm(siteToLoad.forms[0])
+    }
   }
 
   const handleAddSite = () => {
@@ -1128,16 +1138,20 @@ export default function NewCalculator() {
 
   const loadForm = (form: Form) => {
     if (!form) return
-    setMultiplier(form.multiplier)
-    setFond(form.fond)
-    setSoldeALinstant(form.soldeALinstant)
-    setSite(form.site)
-    setSoldeDeDebut(form.soldeDeDebut)
-    setCreditRows(form.creditRows.map(row => ({...row})))
-    setCreditPayeeRows(form.creditPayeeRows.map(row => ({...row})))
-    setDepenseRows(form.depenseRows.map(row => ({...row})))
-    setRetraitRows(form.retraitRows.map(row => ({...row})))
-    setResult(form.result)
+
+    // Set all form fields with a slight delay to ensure state updates properly
+    setTimeout(() => {
+      setMultiplier(form.multiplier || '1.1')
+      setFond(form.fond || '')
+      setSoldeALinstant(form.soldeALinstant || '')
+      setSite(form.site || '')
+      setSoldeDeDebut(form.soldeDeDebut || '')
+      setCreditRows(form.creditRows?.map(row => ({...row})) || [{ totalClient: '', details: '', client: '' }])
+      setCreditPayeeRows(form.creditPayeeRows?.map(row => ({...row})) || [{ totalPayee: '', details: '', client: '' }])
+      setDepenseRows(form.depenseRows?.map(row => ({...row})) || [{ totalDepense: '', details: '', client: '' }])
+      setRetraitRows(form.retraitRows?.map(row => ({...row})) || [{ retraitPayee: '', retrait: '', client: '' }])
+      setResult(form.result || '')
+    }, 0)
   }
 
   const handlePreviousForm = () => {

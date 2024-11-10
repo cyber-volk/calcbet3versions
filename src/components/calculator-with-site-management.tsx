@@ -1,8 +1,6 @@
 'use client'
 
 import React from 'react'
-import { type Form } from '@/types/calculator'
-import { SITE_COLORS } from '@/components/calculator/shared'
 
 export default function CalculatorWithSiteManagement() {
   return (
