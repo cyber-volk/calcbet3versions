@@ -2,22 +2,21 @@
 
 import React, { useState, useCallback, useEffect } from 'react'
 import { Plus, Trash2, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react'
-
-// Import shared types and components
-import { Form, Site, SiteColor, CreditRow, CreditPayeeRow, DepenseRow, RetraitRow, RowField, ErrorKeys, Errors, VoiceLanguage } from '@/types/calculator'
+import { 
+  Form, Site, CreditRow, CreditPayeeRow, DepenseRow, RetraitRow,
+  ErrorKeys, Errors, RowField, VoiceLanguage
+} from '@/types/calculator'
 import { HistorySlider } from '@/components/calculator/HistorySlider'
 import { 
   SITE_COLORS, 
-  VoiceFeedback, 
+  VoiceFeedback,
   VoiceInputButton, 
   LanguageSelector,
   SiteCarousel 
 } from '@/components/calculator/shared'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { processVoiceInput } from '@/utils/voice-processing'
 import { MESSAGES } from '@/constants/calculator'
-
-// Remove all the duplicate type definitions since we're importing them
+import { processVoiceInput } from '@/utils/voice-processing'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export default function NewVersionCalculator() {
   // All state hooks
@@ -635,7 +634,7 @@ export default function NewVersionCalculator() {
     }
 
     // For other forms, proceed with deletion
-    const updatedForms = currentForms.filter((_, index) => index !== currentFormIndex)
+    const updatedForms = currentForms.filter((_: Form, index: number) => index !== currentFormIndex)
     const updatedSite = {
       ...sites[currentSiteIndex],
       forms: updatedForms,
