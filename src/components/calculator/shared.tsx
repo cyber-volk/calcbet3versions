@@ -291,26 +291,24 @@ export function SiteCarousel({
 }: SiteCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
 
-  const handleAddSite = () => {
-    onAddSite()
-    setTimeout(() => {
-      if (carouselRef.current) {
-        carouselRef.current.scrollTo({
-          left: carouselRef.current.scrollWidth,
-          behavior: 'smooth'
-        })
-      }
-    }, 100)
-  }
-
   return (
     <div className="relative w-full overflow-hidden mb-8">
       <div 
         ref={carouselRef}
         className="flex gap-4 overflow-x-auto pb-4 px-4 snap-x snap-mandatory scroll-smooth"
+        style={{
+          scrollBehavior: 'smooth',
+          WebkitOverflowScrolling: 'touch',
+          scrollSnapType: 'x mandatory',
+          scrollSnapStop: 'always'
+        }}
       >
         {sites.map((site, index) => (
-          <div key={site.id} className="snap-start">
+          <div 
+            key={site.id} 
+            className="snap-center flex-shrink-0"
+            style={{ scrollSnapAlign: 'center' }}
+          >
             <SiteCard
               site={site}
               isDefault={index === 0}
@@ -320,9 +318,12 @@ export function SiteCarousel({
             />
           </div>
         ))}
-        <div className="snap-start">
+        <div 
+          className="snap-center flex-shrink-0"
+          style={{ scrollSnapAlign: 'center' }}
+        >
           <button
-            onClick={handleAddSite}
+            onClick={onAddSite}
             className="flex-shrink-0 w-[280px] h-[200px] bg-white rounded-lg shadow-lg hover:shadow-xl transition-all flex flex-col items-center justify-center gap-4"
           >
             <div className="text-lg font-semibold text-gray-600">

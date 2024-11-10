@@ -642,17 +642,17 @@ function FormPreview({
                           </button>
                         </td>
                         <td className="p-2 border border-gray-200">
-                          <input
-                            type="text"
-                            value={row.retraitPayee}
-                            onChange={(e) => updateRow('retrait', index, 'retraitPayee', e.target.value)}
-                            className={`w-full font-mono px-2 py-1 rounded ${
-                              row.retraitPayee === 'OK' ? 'bg-gray-50' : ''
-                            }`}
-                            readOnly={row.retraitPayee === 'OK'}
-                            maxLength={10}
-                          />
-                          {row.retraitPayee !== 'OK' && (
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={row.retraitPayee}
+                              onChange={(e) => updateRow('retrait', index, 'retraitPayee', e.target.value)}
+                              className={`w-full font-mono px-2 py-1 rounded ${
+                                row.retraitPayee === 'OK' ? 'bg-gray-50' : ''
+                              }`}
+                              readOnly={false} // Remove readOnly condition
+                              maxLength={10}
+                            />
                             <VoiceInputButton 
                               onVoiceInput={() => handleVoiceInputWithFeedback(
                                 (value) => updateRow('retrait', index, 'retraitPayee', value)
@@ -660,7 +660,7 @@ function FormPreview({
                               showButton={voiceLanguage !== 'none'}
                               voiceLanguage={voiceLanguage}
                             />
-                          )}
+                          </div>
                         </td>
                         <td className="p-2 border border-gray-200">
                           <div className="relative">
@@ -1237,22 +1237,55 @@ export default function NewCalculator() {
     switch (tableType) {
       case 'credit':
         if (creditRows.length > 1) {
-          setCreditRows(creditRows.filter((_, i: number) => i !== index))
+          const newRows = [...creditRows]
+          newRows.splice(index, 1)
+          setCreditRows(newRows)
+          // Reset all textareas in the table to their initial height
+          setTimeout(() => {
+            const textareas = document.querySelectorAll('textarea')
+            textareas.forEach(textarea => {
+              textarea.style.height = '38px'
+            })
+          }, 0)
         }
         break
       case 'creditPayee':
         if (creditPayeeRows.length > 1) {
-          setCreditPayeeRows(creditPayeeRows.filter((_, i: number) => i !== index))
+          const newRows = [...creditPayeeRows]
+          newRows.splice(index, 1)
+          setCreditPayeeRows(newRows)
+          setTimeout(() => {
+            const textareas = document.querySelectorAll('textarea')
+            textareas.forEach(textarea => {
+              textarea.style.height = '38px'
+            })
+          }, 0)
         }
         break
       case 'depense':
         if (depenseRows.length > 1) {
-          setDepenseRows(depenseRows.filter((_, i: number) => i !== index))
+          const newRows = [...depenseRows]
+          newRows.splice(index, 1)
+          setDepenseRows(newRows)
+          setTimeout(() => {
+            const textareas = document.querySelectorAll('textarea')
+            textareas.forEach(textarea => {
+              textarea.style.height = '38px'
+            })
+          }, 0)
         }
         break
       case 'retrait':
         if (retraitRows.length > 1) {
-          setRetraitRows(retraitRows.filter((_, i: number) => i !== index))
+          const newRows = [...retraitRows]
+          newRows.splice(index, 1)
+          setRetraitRows(newRows)
+          setTimeout(() => {
+            const textareas = document.querySelectorAll('textarea')
+            textareas.forEach(textarea => {
+              textarea.style.height = '38px'
+            })
+          }, 0)
         }
         break
     }
@@ -1304,29 +1337,22 @@ export default function NewCalculator() {
         ;(newRetraitRows[index] as any)[field] = value
 
         if (field === 'retrait') {
-          // When retrait is updated, update retraitPayee and soldeALinstant
+          // When retrait is updated, only update soldeALinstant
           const retraitValue = parseFloat(value) || 0
-          newRetraitRows[index].retraitPayee = 'OK' // Set to "OK" when retrait is updated
-          newRetraitRows[index].retrait = value // Don't format the value here
+          newRetraitRows[index].retrait = value
 
           // Update soldeALinstant - only add the new value
           const currentSolde = soldeALinstant.trim() ? parseFloat(soldeALinstant) || 0 : 0
           setSoldeALinstant(`${currentSolde} + ${retraitValue}`)
         }
 
-        if (field === 'retraitPayee') {
-          // Don't override retraitPayee if user is manually entering a value
-          if (value.toLowerCase() === 'ok') {
-            newRetraitRows[index].retraitPayee = newRetraitRows[index].retrait
-          }
-        }
-
+        // Don't automatically set retraitPayee to "OK"
         setRetraitRows(newRetraitRows)
         break
     }
   }
 
-  // Update the details textarea to handle right-aligned input
+  // Update the handleDetailsChange function
   const handleDetailsChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
     tableType: keyof RowField,
@@ -1334,16 +1360,8 @@ export default function NewCalculator() {
     field: RowField[typeof tableType]
   ) => {
     const value = e.target.value
-    const numbers = value.split('+').filter(n => n.trim())
-    
-    // Keep the first number on the right
-    if (numbers.length === 1) {
-      updateRow(tableType, index, field, value)
-    } else {
-      // For subsequent numbers, add them to the left
-      const formattedValue = numbers.reverse().join(' + ')
-      updateRow(tableType, index, field, formattedValue)
-    }
+    // Don't modify the input value, just update it as is
+    updateRow(tableType, index, field, value)
   }
 
   // Update the total input fields in all tables to ensure consistent width and display
@@ -2094,17 +2112,17 @@ export default function NewCalculator() {
                           </button>
                         </td>
                         <td className="p-2 border border-gray-200">
-                          <input
-                            type="text"
-                            value={row.retraitPayee}
-                            onChange={(e) => updateRow('retrait', index, 'retraitPayee', e.target.value)}
-                            className={`w-full font-mono px-2 py-1 rounded ${
-                              row.retraitPayee === 'OK' ? 'bg-gray-50' : ''
-                            }`}
-                            readOnly={row.retraitPayee === 'OK'}
-                            maxLength={10}
-                          />
-                          {row.retraitPayee !== 'OK' && (
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={row.retraitPayee}
+                              onChange={(e) => updateRow('retrait', index, 'retraitPayee', e.target.value)}
+                              className={`w-full font-mono px-2 py-1 rounded ${
+                                row.retraitPayee === 'OK' ? 'bg-gray-50' : ''
+                              }`}
+                              readOnly={false} // Remove readOnly condition
+                              maxLength={10}
+                            />
                             <VoiceInputButton 
                               onVoiceInput={() => handleVoiceInputWithFeedback(
                                 (value) => updateRow('retrait', index, 'retraitPayee', value)
@@ -2112,7 +2130,7 @@ export default function NewCalculator() {
                               showButton={voiceLanguage !== 'none'}
                               voiceLanguage={voiceLanguage}
                             />
-                          )}
+                          </div>
                         </td>
                         <td className="p-2 border border-gray-200">
                           <div className="relative">
