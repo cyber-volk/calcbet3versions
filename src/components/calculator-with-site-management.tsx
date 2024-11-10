@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { Mic, Trash, Plus, Languages, ChevronRight, ChevronLeft, Edit2, Check, X, Trash2, RotateCcw, Book } from 'lucide-react'
+import React, { useState, useCallback, useEffect } from 'react'
+import { Plus, Trash2, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import {
   type ErrorKeys, type Errors, type CreditRow, type CreditPayeeRow, type DepenseRow,
@@ -890,7 +890,7 @@ export function CalculatorWithSiteManagement() {
                     <tr key={index}>
                       <td className="border border-gray-300 px-4 py-2">
                         <button type="button" onClick={() => removeRow('credit', index)} className="text-red-500 hover:text-red-700">
-                          <Trash size={20} />
+                          <Trash2 size={20} />
                         </button>
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
@@ -968,7 +968,7 @@ export function CalculatorWithSiteManagement() {
                     <tr key={index}>
                       <td className="border border-gray-300 px-4 py-2">
                         <button type="button" onClick={() => removeRow('creditPayee', index)} className="text-red-500 hover:text-red-700">
-                          <Trash size={20} />
+                          <Trash2 size={20} />
                         </button>
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
@@ -1046,7 +1046,7 @@ export function CalculatorWithSiteManagement() {
                     <tr key={index}>
                       <td className="border border-gray-300 px-4 py-2">
                         <button type="button" onClick={() => removeRow('depense', index)} className="text-red-500 hover:text-red-700">
-                          <Trash size={20} />
+                          <Trash2 size={20} />
                         </button>
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
@@ -1124,7 +1124,7 @@ export function CalculatorWithSiteManagement() {
                     <tr key={index}>
                       <td className="border border-gray-300 px-4 py-2">
                         <button type="button" onClick={() => removeRow('retrait', index)} className="text-red-500 hover:text-red-700">
-                          <Trash size={20} />
+                          <Trash2 size={20} />
                         </button>
                       </td>
                       <td className="border border-gray-300 px-4 py-2">

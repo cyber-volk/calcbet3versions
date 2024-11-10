@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { Book, X, Clock, ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react'
 import { Form } from '@/types/calculator'
 import { formatDistanceToNow } from 'date-fns'

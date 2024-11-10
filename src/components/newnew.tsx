@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { 
   Plus, ChevronRight, ChevronLeft, 
-  Trash2, RotateCcw, Clock, X, Book, Trash 
+  Trash2, RotateCcw, Clock, X, Book
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { processVoiceInput } from '@/utils/voice-processing'
