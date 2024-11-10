@@ -15,3 +15,12 @@ import {
 } from '@/components/calculator/shared'
 
 import { MESSAGES } from '@/constants/calculator'
+
+export default function CalculatorWithSiteManagement() {
+  // Component code...
+  return (
+    <div>
+      {/* Component JSX */}
+    </div>
+  )
+}
